@@ -93,7 +93,13 @@ public class LinkUtil {
 
                     String site = "";
                     Document doc = null;
-                    doc = Jsoup.parse(response.body().string());
+                    try {
+                        doc = Jsoup.parse(response.body().string());
+                    } catch (Exception exception) {
+                        if (listener != null)
+                            listener.onFailed(exception);
+                        return;
+                    }
                     titleElements = doc.select("title");
                     descriptionElements = doc.select("meta[name=description]");
 
